@@ -1,13 +1,23 @@
+<!-- 网页加载流程->加载index.html->找到挂载点->加载vue应用->vue开始工作->页面展示 -->
+
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>2project1106</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <!-- 网页的小图标 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- meta用于移动端适应 -->
+  <title>2project1106</title>
+  <!-- title标签表示项目的名称（网页） -->
+</head>
+
+<body>
+  <div id="app"></div>
+  <!-- 这是一个vue应用容器，挂载点，vue应用的所有内容都会在这个div中 -->
+  <script type="module" src="/src/main.js"></script>
+  <!-- 加载src/main.js ，启动vue:main.js会创建会挂载vue应用 -->
+</body>
+
 </html>

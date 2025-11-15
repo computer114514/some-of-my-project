@@ -1,10 +1,19 @@
+<!-- 好乐，这应该就是则边栏组件了，应该没什么好说的 -->
+
+
+<!-- 看看结构罢
+ 1，el-aside
+ 2，左侧栏标题组件和el-menu组件
+ 3，el-menu组件包含el-menu-item和el-sub-item
+ 4,el-menu-item包含循环的图标和label标签
+ 5，el-sub-item包含group主群和主题template也是循环引入图标和label标签
+-->
 <template>
   <el-aside width="$store.state.isCollapse?'64px':'180px'">
     
-<h3 v-show="$store.state.isCollapse">后台管理</h3>
-<h3 v-show="!$store.state.isCollapse">后台</h3>
+    <h3 v-show="$store.state.isCollapse">后台管理</h3>
+    <h3 v-show="!$store.state.isCollapse">后台</h3>
  
-
     <el-menu class="el-menu-vertical-demo"
       background-color="#545c64"
       text-color="#fff"
@@ -47,9 +56,18 @@
         </el-sub-menu>
     </el-menu>
 
-
   </el-aside>
 </template>
+
+
+<!--      ！！
+        ！！！！
+       ！！！！！
+     ！！！！！！！
+    ！！！！！！！！ 
+    你昨天看到了template，接下来该看script了！
+    -->
+
 
 <script>
 import { mapState } from 'vuex/dist/vuex.cjs.js';

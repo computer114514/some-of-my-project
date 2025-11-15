@@ -34,10 +34,12 @@
 </template>  
 
 <script>
-import {defineComponent,onMounted,ref} from 'vue'
+import {defineComponent,getCurrentInstance,getCurrentScope,onMounted,ref} from 'vue'
 import axios from "axios"
 export default defineComponent({
  setup(){
+  const {proxy}=getCurrentInstance();
+  //proxy代表代理对象，通过它获取到的相当于this，指向当前实例
   let tableData=ref([])
   const tableLabel={
     name:'品牌',
@@ -45,14 +47,23 @@ export default defineComponent({
     monthBuy:'本月购买',
     totalBuy:'总购买'
   }
-  const getTableList=async()=>{
-     await axios.get("https://m1.apifoxmock.com/m1/7394853-7127373-default/home/getTableData").then((res)=>{
-      console.log(res)
-      if(res.data.code==200){
-        tableData.value=res.data.data.tableData;
-      }
-      // tableData.value=res.data.data;
-     })
+  const getTableList=async ()=>{
+    //  await axios.get("https://m1.apifoxmock.com/m1/7394853-7127373-de
+    // fault/home/getTableData").then((res)=>{
+    //   console.log(res)
+    //   if(res.data.code==200){
+    //     tableData.value=res.data.data.tableData;
+    //   }
+    //   // tableData.value=res.data.data;
+    //  })
+
+    //修bug之通过打印缩小位置，console.log()
+
+    let res=await proxy.$api.getTableData()
+    // console.log(res.tableData)
+    //res下面只有tableData
+    tableData.value=res.tableData
+    // console.log(114514)
   }
   onMounted(()=>{
     getTableList()
