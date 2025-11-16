@@ -1,3 +1,9 @@
+<!-- 接下来是home组件
+结构：
+1，el-row
+2,el-col
+3,el-card +el-card
+-->
 <template>
   <el-row class="home" :gutter="20">
     <el-col :span="8" style="margin-top:20px">
@@ -28,8 +34,20 @@
       </el-card>
     </el-col>
 
-
-    <el-col :span="16" style="margin-top:20px"></el-col>
+    <el-col :span="16" style="margin-top:20px">
+      <div>
+        <el-card :body-style="{display:'flex',padding:0}" v-for="item in CountData" :key="item.name">
+          <component class="icons" :is="item.icon" :style="{background:item.color}"></component>
+          <!--
+                               ⭐
+                             ⭐⭐⭐
+                            ⭐⭐⭐⭐ 
+                           ⭐⭐⭐⭐⭐
+                         休息一下，马上回来~
+          -->
+        </el-card>
+      </div>
+    </el-col>
   </el-row>
 </template>  
 
@@ -41,12 +59,15 @@ export default defineComponent({
   const {proxy}=getCurrentInstance();
   //proxy代表代理对象，通过它获取到的相当于this，指向当前实例
   let tableData=ref([])
+  let CountData=ref([])
+
   const tableLabel={
     name:'品牌',
     todayBuy:'今日购买',
     monthBuy:'本月购买',
     totalBuy:'总购买'
   }
+  
   const getTableList=async ()=>{
     //  await axios.get("https://m1.apifoxmock.com/m1/7394853-7127373-de
     // fault/home/getTableData").then((res)=>{
@@ -60,16 +81,29 @@ export default defineComponent({
     //修bug之通过打印缩小位置，console.log()
 
     let res=await proxy.$api.getTableData()
-    // console.log(res.tableData)
+    //注意，getTableData来自home.js
+    console.log(res)
+    //res是home.js里返回的对象
     //res下面只有tableData
     tableData.value=res.tableData
     // console.log(114514)
   }
+  
+  const getCountData=async()=>{
+    let res = await proxy.$api.getCountData()
+    console.log(114514)
+    console.log(res)
+    CountData.value=res
+  }
+  
+  
+  //获取首页count数据
   onMounted(()=>{
     getTableList()
+    getCountData()
   })
   return {
-  tableData,tableLabel
+  tableData,tableLabel,CountData
 }
  } 
 })

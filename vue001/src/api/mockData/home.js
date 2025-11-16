@@ -1,3 +1,5 @@
+// 这就是home组件的假数据，不是真的，mock的
+
 export default {
   getHomeData: () => {
     return {

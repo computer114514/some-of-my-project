@@ -1,3 +1,5 @@
+// 这是个总开关mock文件
+
 // 配置环境文件
 //一般只在企业级项目里面有三个环境：1，开发2，测试3，线上。
 const env = import.meta.env.MODE || 'prod'
@@ -11,7 +13,7 @@ const EnvConfig = {
     baseApi: '//test.future.com/api',
     mockApi: 'https://m1.apifoxmock.com/m1/7394853-7127373-default/home/getTableData'
   },
-  pro: {
+  prod: {
     baseApi: '//future.com/api',
     mockApi: 'https://m1.apifoxmock.com/m1/7394853-7127373-default/home/getTableData'
   }

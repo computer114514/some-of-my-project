@@ -1,6 +1,5 @@
 <!-- 好乐，这应该就是则边栏组件了，应该没什么好说的 -->
 
-
 <!-- 看看结构罢
  1，el-aside
  2，左侧栏标题组件和el-menu组件
@@ -8,6 +7,7 @@
  4,el-menu-item包含循环的图标和label标签
  5，el-sub-item包含group主群和主题template也是循环引入图标和label标签
 -->
+
 <template>
   <el-aside width="$store.state.isCollapse?'64px':'180px'">
     
@@ -59,21 +59,12 @@
   </el-aside>
 </template>
 
-
-<!--      ！！
-        ！！！！
-       ！！！！！
-     ！！！！！！！
-    ！！！！！！！！ 
-    你昨天看到了template，接下来该看script了！
-    -->
-
-
 <script>
 import { mapState } from 'vuex/dist/vuex.cjs.js';
 import {useRouter} from 'vue-router'
 export default {
-
+//setup是vue3引入的入口函数
+//cinposition api只能在setup中使用
   setup(){
 
     const list=[
@@ -119,22 +110,30 @@ export default {
               url: 'Other/PageTwo'
             }
           ]
+          //这就是有子菜单的项目啦
         }
       ];
     const router=useRouter()
+
+    //nochildren筛选没有子菜单的项目
     const noChildren=()=>{
       return list.filter((item)=>!item.children);
     }
+    //hasChildren筛选有子菜单的项目
     const hasChildren=()=>{
       return list.filter((item)=>item.children);
     }
+
+    //菜单点击逻辑
     const clickMenu=(item)=>{
       console.log(item)
-      router.push(
-        {
+      router.push({
           name:item.name,
-        }
-      )
+        })
+        //push是页面跳转
+        //导航到name:item.name对应的路由
+        //为什么呢，因为路由配置里面也有name属性啊，这样就可以一一对应了口牙！
+        //最后跳转到name:home对应的路径
     }
     return {noChildren,hasChildren,clickMenu};
   }
@@ -144,7 +143,6 @@ export default {
 <style lang="less" scoped>
 .el-menu{
   border-right:none;
-
 }
   h3{
     line-height:48px;

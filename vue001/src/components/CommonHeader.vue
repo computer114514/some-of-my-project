@@ -1,14 +1,21 @@
-
+<!-- 呃，这边应该是header组件了 -->
+ <!-- 1，el-header
+  2，里面有左右区域两个div
+  3，左区域有el-button(内含图标，点击之后展开折叠左侧栏)和首页标题
+  4，右边区域有下拉菜单（一个头像包含着下拉列表）
+   -->
 <template>
   <el-header>
+
     <div class="l-content">
-    <el-button size="small" plain @click="handleCollapse()">
-<el-icon :size="20">
-  <Menu />
-</el-icon>
-    </el-button>
-    <h3>首页</h3>
+      <el-button size="small" plain @click="handleCollapse()">
+        <el-icon :size="20">
+          <Menu />
+        </el-icon>
+      </el-button>
+      <h3>首页</h3>
     </div>
+
     <div class="r-content">
  <el-dropdown>
     <span class="el-dropdown-link">
@@ -25,8 +32,8 @@
     </template>
   </el-dropdown>
     </div>
-  </el-header>
 
+  </el-header>
 </template>
 
 <style scoped>
@@ -61,15 +68,17 @@ header{
 <script>
 import { User } from '@element-plus/icons-vue';
 import {useStore} from 'vuex'
-
+//获取存储
 export default {
   setup(){
     let store=useStore()
+    //创建一个store实例
     const getImgSrc=(user)=>{
       console.log(import.meta.url)
       return new URL(`../assets/${user}.jpg`,import.meta.url).href;
     };
-        let handleCollapse=()=>{
+    //作用是让不同用户使用不同的头像
+    let handleCollapse=()=>{
       //jo是要调用vuex中的mutations
       store.commit("updateIsCollapse");
     }
@@ -81,5 +90,3 @@ export default {
   },
 };
 </script>
-
-
