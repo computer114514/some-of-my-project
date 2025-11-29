@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .lunbo {
+            width: 600px;
+            height: 300px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .lunbo img {
+            width: 100%;
+            height: 100%;
+            /* div中用background-size
+            img中用object-fit */
+            object-fit: cover;
+        }
+
+        .lunbo2 {
+            width: 600px;
+            height: 300px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+
+        .lunbo2 img {
+            width: 100%;
+            height: 100%;
+            /* div中用background-size
+            img中用object-fit */
+            object-fit: cover;
+        }
+
+        .stop {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: red;
+            color: white;
+            font-size: 20px;
+            right: 50px;
+        }
+
+        #stop02 {
+            right: 150px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="lunbo">
+        <div class="container">
+            <img src="../img01.jpg" alt="err">
+        </div>
+    </div>
+    <div class="lunbo2">
+        <div class="container">
+            <img src="../img01.jpg" alt="err">
+        </div>
+    </div>
+    <button class="stop" id="stop01">STOP<br>上</button>
+    <button class="stop" id="stop02">STOP<br>下</button>
+</body>
+<script>
+    let flag1 = false
+    let flag2 = false
+    function createLunBo(box, sec) {
+        let num = 1;
+        let img = document.querySelector(`.${box} img`);
+        const move = function () {
+            num++;
+            if (num > 4) {
+                num = 1;
+            }
+            img.src = `../img0${num}.jpg`
+        }
+        // const timer = setInterval(move, `${sec}`);
+        //闭包的思路是返回一个包含两个方法的对象
+        let timer = setInterval(move, sec);
+        return {
+            pause: () => {
+                clearInterval(timer)
+            },
+            start: () => {
+                timer = setInterval(move, sec);
+            }
+        };
+        //返回是返回了，但是你存在哪里了？
+        //不要用ai
+    }
+    let timer1 = createLunBo("lunbo", 1500)
+    let timer2 = createLunBo("lunbo2", 1000)
+    const control1 = document.querySelector("#stop01");
+    control1.addEventListener("click", function () {
+        flag1 = !flag1
+        if (flag1) {
+            console.log("stop control1")
+            timer1.pause();
+            control1.innerHTML = `START<br>上`
+        }
+        else {
+            console.log("start control1")
+            timer1.start();
+            control1.innerHTML = `STOP<br>下`
+        }
+    });
+    const control2 = document.querySelector("#stop02");
+    control2.addEventListener("click", function () {
+        flag2 = !flag2
+        if (flag2) {
+            console.log("stop control2")
+            timer2.pause();
+            control2.innerHTML = `START<br>下`
+        }
+        else {
+            console.log("start control2")
+            timer2.start();
+            control2.innerHTML = `STOP<br>下`
+        }
+    });
+</script>
+
+</html>

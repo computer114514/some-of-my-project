@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../左右/iconfont.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .lunbo {
+            width: 600px;
+            height: 300px;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .lunbo img {
+            width: 100%;
+            height: 100%;
+            /* div中用background-size
+            img中用object-fit */
+            object-fit: cover;
+            position: absolute;
+        }
+
+        .lunbo2 {
+            width: 600px;
+            height: 300px;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        .lunbo2 img {
+            width: 100%;
+            height: 100%;
+            /* div中用background-size
+            img中用object-fit */
+            object-fit: cover;
+            position: absolute;
+        }
+
+        .stop {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: red;
+            color: white;
+            font-size: 20px;
+            right: 50px;
+        }
+
+        #stop02 {
+            right: 150px;
+        }
+
+        .dots {
+            position: absolute;
+            height: 20px;
+            width: 200px;
+            bottom: 20px;
+            left: 8px;
+        }
+
+        .dots span {
+            display: inline-block;
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            background-color: grey;
+            margin: 0 10px;
+        }
+
+        .dots-container::before {
+            pointer-events: none;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom,
+                    transparent,
+                    transparent,
+                    transparent,
+                    transparent,
+                    transparent,
+                    transparent,
+                    rgba(0, 0, 0, 0.2),
+                    rgba(0, 0, 0, 0.8),
+                    rgba(0, 0, 0, 1),
+                    rgba(0, 0, 0, 1));
+            /* z-index: 1; 这个加了就不好了*/
+            /* 确保在图片上方 */
+            /* position: absolute; */
+            /* bottom: 0; */
+            /* height: 60px; */
+            /* width: 100%; */
+            /* background-color: #7695B3; */
+            /* filter: blur(5px); */
+        }
+
+        .dots span.active {
+            background-color: #fff;
+            height: 12px;
+            width: 12px;
+        }
+
+        .left {
+            border-radius: 2%;
+            text-align: left;
+            left: 0;
+            bottom: 110px;
+            color: white;
+            font-size: 24px;
+            width: 40px;
+            height: 80px;
+            position: absolute;
+            line-height: 80px;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .left:hover {
+            cursor: pointer;
+        }
+
+        .right {
+            border-radius: 2%;
+            text-align: right;
+            right: 0;
+            bottom: 110px;
+            color: white;
+            font-size: 24px;
+            width: 40px;
+            height: 80px;
+            position: absolute;
+            line-height: 80px;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .right:hover {
+            cursor: pointer;
+        }
+
+        .stop:hover {
+            transform: scale(0.95);
+            box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <div class="lunbo">
+        <div class="container">
+            <img src="../img01.jpg" alt="err">
+        </div>
+    </div> -->
+    <div class="lunbo2">
+        <div class="container">
+            <img src="../img01.jpg" alt="err">
+            <div class="dots-container">
+                <div class="dots">
+                    <span class="dot1 dot"></span>
+                    <span class="dot2 dot"></span>
+                    <span class="dot3 dot"></span>
+                    <span class="dot4 dot"></span>
+                </div>
+            </div>
+            <div class="left"><span class="iconfont icon-zuo"></span></div>
+            <div class="right"><span class="iconfont icon-you"></span></div>
+        </div>
+    </div>
+    <!-- <button class="stop" id="stop01">STOP<br>上</button> -->
+    <button class="stop" id="stop02">STOP<br>下</button>
+</body>
+<script>
+
+    let num = 1;
+    let flag1 = false
+    let flag2 = false
+    function createLunBo(box, sec) {
+        let img = document.querySelector(`.${box} img`);
+        const move = function () {
+            num++;
+            if (num > 4) {
+                num = 1;
+            }
+            img.src = `../img0${num}.jpg`
+            dot.forEach(item => {
+                item.classList.remove("active");
+            })
+            dot[num - 1].classList.add("active")
+        }
+        // const timer = setInterval(move, `${sec}`);
+        //闭包的思路是返回一个包含两个方法的对象
+        let timer = setInterval(move, sec);
+        return {
+            pause: () => {
+                clearInterval(timer)
+            },
+            start: () => {
+                timer = setInterval(move, sec);
+            },
+            img
+        };
+        //返回是返回了，但是你存在哪里了？
+        //不要用ai
+    }
+    // let timer1 = createLunBo("lunbo", 3000)
+    let timer2 = createLunBo("lunbo2", 2000)
+    function reset() {
+        timer2.pause();
+        timer2.start();
+    }
+    let imgnew = timer2.img
+    //以下是暂停器模块
+    // const control1 = document.querySelector("#stop01");
+    // control1.addEventListener("click", function () {
+    // flag1 = !flag1
+    // if (flag1) {
+    //     console.log("stop control1")
+    //     timer1.pause();
+    //     control1.innerHTML = `START<br>上`
+    // }
+    // else {
+    //     console.log("start control1")
+    //     timer1.start();
+    //     control1.innerHTML = `STOP<br>下`
+    // }
+    // });
+    const control2 = document.querySelector("#stop02");
+    control2.addEventListener("click", function () {
+        flag2 = !flag2
+        if (flag2) {
+            console.log("stop control2")
+            timer2.pause();
+            control2.innerHTML = `START<br>下`
+        }
+        else {
+            console.log("start control2")
+            timer2.start();
+            control2.innerHTML = `STOP<br>下`
+        }
+    });
+
+    //以下是小圆点模块
+    const img = document.querySelector(".lunbo2 .container img")
+    let dot = document.querySelectorAll(".dot");
+    let dot1 = document.querySelector(".dot1");
+    dot1.classList.add("active");
+    dot1.addEventListener("click", function () {
+        num = 1;
+        dot.forEach(item => {
+            item.classList.remove("active");
+        })
+        this.classList.add("active")
+        img.src = "../img01.jpg"
+        reset()
+    })
+    let dot2 = document.querySelector(".dot2");
+    dot2.addEventListener("click", function () {
+        num = 2;
+        console.log("dot2.")
+        this.classList.add("active")
+        dot.forEach(item => {
+            item.classList.remove("active");
+        })
+        this.classList.add("active")
+        img.src = "../img02.jpg"
+        reset();
+    })
+    let dot3 = document.querySelector(".dot3");
+    dot3.addEventListener("click", function () {
+        num = 3;
+        console.log("dot3.")
+        this.classList.add("active")
+        dot.forEach(item => {
+            item.classList.remove("active");
+        })
+        this.classList.add("active")
+        img.src = "../img03.jpg"
+        reset();
+    })
+    let dot4 = document.querySelector(".dot4");
+    dot4.addEventListener("click", function () {
+        num = 4;
+        console.log("dot4.")
+        this.classList.add("active")
+        dot.forEach(item => {
+            item.classList.remove("active");
+        })
+        this.classList.add("active")
+        img.src = "../img04.jpg"
+        reset();
+    })
+
+    img.addEventListener("mouseover", function () {
+        timer2.pause();
+    })
+    img.addEventListener("mouseout", function () {
+        timer2.start();
+    })
+
+    //以下是左右按键模块
+    let leftButton = document.querySelector(".lunbo2 .container .left")
+    let rightButton = document.querySelector(".lunbo2 .container .right")
+    leftButton.addEventListener("click", function () {
+
+        console.log("leftButton点击成功")
+        num--;
+        if (num < 1) {
+            num = 4;
+        }
+        imgnew.src = `../img0${num}.jpg`
+        dot.forEach(item => {
+            item.classList.remove("active");
+        })
+        dot[num - 1].classList.add("active")
+        reset()
+    })
+    rightButton.addEventListener("click", function () {
+        console.log("rightButton点击成功")
+        num++;
+        if (num > 4) {
+            num = 1;
+        }
+        imgnew.src = `../img0${num}.jpg`
+        dot.forEach(item => {
+            item.classList.remove("active");
+        })
+        dot[num - 1].classList.add("active")
+        reset()
+    })
+
+</script>
+
+</html>
