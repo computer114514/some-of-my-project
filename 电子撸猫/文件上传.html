@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img{
+            max-width: 600px;
+        }
+    </style>
+</head>
+<body>
+    <input type="file" id="file-input">
+    <div class="result"></div>
+    <script>
+        const myFile=document.querySelector("#file-input");
+        const result=document.querySelector(".result")
+        myFile.addEventListener("change",(e)=>{
+            //最常见的e参数，由浏览器传入，包含着事件的所有细节
+            // console.log(e.target)
+            // console.log(e.target.files)
+            // console.log(myFile.name)//错误，因为myFile是input标签，不是文件对象
+            const file=e.target.files[0];//获取用户选择的文件
+            //获取到的文件会存储于file变量中，而文件存在于e.target.files中
+            
+            // console.log(file.name);
+            // console.log(file.size);
+            // console.log(file.type);
+
+            const fileReader=new FileReader();
+            //FileReader是一个内置的对象，可以用来读取文件内容
+            // fileReader.onload=function(e){
+            //     //代表文件读取完成后调用函数
+            //     const content=e.target.result;//指向对象的结果存储。。
+            //     console.log(content);
+
+            // }
+            fileReader.onerror=()=>{
+                console.error("文件读取失败。")
+            }
+            //我创建了实例对象，而且对这个实例对象是否成功读取到文件做了相应处理
+            if(file.type.startsWith("text/")){
+                fileReader.readAsText(file,"UTF-8");
+            }
+            else if(file.type.startsWith("image/")){
+                fileReader.readAsDataURL(file);
+            }else{
+                console.warn("没做完呢！");
+            }
+            fileReader.onload=function(e){
+                const img=e.target.result
+                result.innerHTML=`<img src="${img}" alt="error">
+`
+            }
+        })
+    </script>
+</body>
+</html>

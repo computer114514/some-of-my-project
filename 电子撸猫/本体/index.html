@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img{
+            max-width:600px;
+        }
+    </style>
+</head>
+<body>
+    <div class="bigbox">
+        <div class="container">
+            <div class="submit">
+                <input type="file">
+            </div>
+            <div class="cat"></div>
+        </div>
+    </div>
+    <script>
+        //文件上传模块  
+        const submit=document.querySelector(".bigbox .container .submit input");
+        const cat=document.querySelector(".bigbox .container .cat");
+        console.log("cat",cat)
+        submit.addEventListener("change",function(e){
+            const file=e.target.files[0]  
+            //创建实例
+        const Reader=new FileReader()
+        
+        //添加文件读取成功处理
+        Reader.onload=function(e){
+            const content=e.target.result
+            cat.innerHTML=`<img src=${content} alt="err">`
+        }
+        //添加文件读取失败处理
+        Reader.onerror=()=>{
+            console.error("oh,shit!")
+        }
+
+        //分情况讨论读取方法
+        if(file.type.startsWith('text/')){
+            Reader.readAsText(file,"UTF-8")
+        }else if(file.type.startsWith("image/")){
+            Reader.readAsDataURL(file)
+        }else{
+            Reader.readAsArrayBuffer(file)   
+        }
+        })
+
+        
+    </script>
+</body>
+</html>
